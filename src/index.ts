@@ -35,7 +35,7 @@ const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, loca
   let result: string | undefined | string[];
   try {
     let icu = tl[locale];
-    if (!icu && strict) {
+    if (icu === undefined && strict) {
       throw new Error(`Missing translations for locale: ${locale} with key: ${key.toString()}`);
     } else if (!icu) {
       // fallback

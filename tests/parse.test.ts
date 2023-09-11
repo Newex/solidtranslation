@@ -58,6 +58,16 @@ it("should return missing translation text if missing translation", () => {
   expect(text).toBe("NOT TRANSLATED YET!");
 })
 
-it("should return empty text if translation is an empty text", () => {
+it("should return missing text if translation is an empty text", () => {
   // arrange
+  const options: SolidTranslationOptions = {
+    missingTranslationMessage: "MISSING"
+  };
+  const t = translate(tl, "de", options);
+
+  // act
+  const empty = t("another");
+
+  // assert
+  expect(empty).toBe("MISSING");
 })
