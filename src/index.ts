@@ -3,7 +3,7 @@ import IntlMessageFormat, { FormatXMLElementFn, PrimitiveType, Formats } from "i
 
 // Modified to not concatenate using period.
 // source: https://medium.com/xgeeks/typescript-utility-keyof-nested-object-fa3e457ef2b2
-type NestedKeyOf<ObjectType extends object> = 
+export type NestedKeyOf<ObjectType extends object> = 
 {[Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object 
 ? `${NestedKeyOf<ObjectType[Key]>}`
 : `${Key}`
