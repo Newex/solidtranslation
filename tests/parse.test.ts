@@ -1,56 +1,31 @@
-import { parse } from "@formatjs/icu-messageformat-parser";
-import IntlMessageFormat from "intl-messageformat";
 import { expect, it, } from "vitest";
-import { translator, translateJson, t } from "../src/index";
+import { translate } from "../src/index";
 import tl from "./example-translations.json";
 
-it("should parse icu message properly", () => {
+it("should properly translate when given locale, key and options", () => {
   // arrange
-  const icu = "hello {name}";
-  const translation = { name: "World" };
-  const ast = parse(icu);
-  const msgFn = new IntlMessageFormat(ast, "en");
-
-  // act
-  const msg = msgFn.format(translation);
-
-  // assert
-  expect(msg).toBe("hello World");
-})
-
-it("should translate simple hello world", () => {
-  // arrange
-  const icu = "hello {name}";
-  const options = { name: "World" };
-
-  // act
-  const translation = translator(icu, options, "en");
-
-  // assert
-  expect(translation).toBe("hello World");
-})
-
-it("should provide intellisense for json object", () => {
-  const english = translateJson(tl, "greetings", "en", {
+  const t = translate(tl, "en");
+  const options = {
     name: "World"
-  });
+  };
 
-  const dansk = translateJson(tl, "greetings", "da", {
-    name: "Verden"
-  });
+  // act
+  const hello = t("greetings", options);
 
-  const nihon = translateJson(tl, "greetings", "jpn", {
-    name: "Sekai"
-  });
-
-  expect(english).toBe("Hello World!");
-  expect(dansk).toBe("Hej Verden!");
-  expect(nihon).toBe("Konnichiwa Sekai-san!");
+  // assert
+  expect(hello).toBe("Hello World!");
 })
 
-it("should store t", () => {
-  const translator = t(tl);
-  const hello = translator("greetings", "en", {
-    name: "John"
-  });
+it("should throw error when there is a mismatch between interpolated string and options argument", () => {
+  // arrange
+  const t = translate(tl, "da");
+  const options = {
+    wrong: "No options property"
+  };
+
+  // act
+  const hello = () => t("greetings", options);
+
+  // arrange
+  expect(hello).toThrowError(/^Remember to add options with property to interpolate: options\.name$/);
 })
