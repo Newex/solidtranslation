@@ -38,8 +38,26 @@ it("should fallback to the specified language if no translation is found", () =>
   const t = translate(tl, "de", options);
 
   // act
-  const hello = t("greetings", { name: "English"});
+  const hello = t("greetings", { name: "English" });
 
   // assert
   expect(hello).toBe("Hello English!");
+})
+
+it("should return missing translation text if missing translation", () => {
+  // arrange
+  const options: SolidTranslationOptions = {
+    missingTranslationMessage: "NOT TRANSLATED YET!"
+  };
+  const t = translate(tl, "en", options);
+
+  // act
+  const text = t("another");
+
+  // assert
+  expect(text).toBe("NOT TRANSLATED YET!");
+})
+
+it("should return empty text if translation is an empty text", () => {
+  // arrange
 })
