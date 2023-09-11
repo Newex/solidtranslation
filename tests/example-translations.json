@@ -1,0 +1,7 @@
+{
+  "greetings": {
+    "en": "Hello {name}!",
+    "da": "Hej {name}!",
+    "jpn": "Konnichiwa {name}-san!"
+  }
+}
