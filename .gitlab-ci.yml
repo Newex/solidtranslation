@@ -9,7 +9,7 @@ stages:
   - deploy
 
 before_script:
-  - cp /mnt/certs/ca.crt /digify-ca.crt
+  - ls -al /secrets
 
 test:
   stage: test
@@ -22,7 +22,7 @@ deploy:
   dependencies:
     - test
   script:
-    - npm config set cafile /digify-ca.crt
+    - npm config set cafile /secrets/ca.crt
     - npm config get cafile
     - npm install
     - npm run build
