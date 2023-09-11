@@ -19,6 +19,7 @@ deploy:
   dependencies:
     - test
   script:
+    # Must get packages from npmjs.org using standard CA
     - npm install
 
     # Note: that it seems only tls.crt and tls.key are available in build-image
