@@ -18,13 +18,34 @@ export type TranslationLookup = {
 
 export type Options = Record<string, PrimitiveType | FormatXMLElementFn<string>>;
 
-const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, options?: Options, format?: Partial<Formats>) => {
+export interface SolidTranslationOptions {
+  strict?: boolean,
+  fallbackLanguage?: string,
+  missingTranslationMessage?: string,
+}
+
+const defaultSolidOptions: SolidTranslationOptions = {
+  strict: true,
+  missingTranslationMessage: "-"
+}
+
+const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, options?: Options, format?: Partial<Formats>, solidOptions?: SolidTranslationOptions) => {
+  const { strict, fallbackLanguage, missingTranslationMessage } = solidOptions ?? defaultSolidOptions;
   const tl: Translation = json[key];
   let result: string | undefined | string[];
   try {
-    const icu = tl[locale];
-    if (!icu) {
+    let icu = tl[locale];
+    if (!icu && strict) {
       throw new Error(`Missing translations for locale: ${locale} with key: ${key.toString()}`);
+    } else if (!icu) {
+      // fallback
+      if (fallbackLanguage) {
+        icu = tl[fallbackLanguage];
+      }
+
+      if (!icu && missingTranslationMessage !== undefined) {
+        icu = missingTranslationMessage;
+      }
     }
 
     const ast = parse(icu);
@@ -38,7 +59,7 @@ const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, loca
       if (entry.type === 1) {
         // Interpolation
         const prop = entry.value;
-        if (!options || !options[prop]) {
+        if ((!options || !options[prop]) && strict) {
           throw new Error(`Remember to add options with property to interpolate: options.${prop}`);
         }
       }
@@ -47,14 +68,19 @@ const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, loca
     const messageFn = new IntlMessageFormat(ast, locale, format);
     result = messageFn.format(options)
   } catch (error) {
-    throw error;
+    if (strict) {
+      throw error;
+    } else {
+      return "";
+    }
   }
 
   return result;
 }
 
-export const translate = <T extends TranslationLookup>(json: T, locale: NestedKeyOf<T>) => {
+export const translate = <T extends TranslationLookup>(json: T, locale: NestedKeyOf<T>, options?: SolidTranslationOptions) => {
+  const solidOptions = options;
   return (key: keyof T, options?: Options, format?: Partial<Formats>) => {
-    return translateJson<T>(json, key, locale, options, format);
+    return translateJson<T>(json, key, locale, options, format, solidOptions);
   }
 }
