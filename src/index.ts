@@ -29,7 +29,7 @@ const defaultSolidOptions: SolidTranslationOptions = {
   missingTranslationMessage: "-"
 }
 
-const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, options?: Options, format?: Partial<Formats>, solidOptions?: SolidTranslationOptions) => {
+const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, values?: Options, format?: Partial<Formats>, solidOptions?: SolidTranslationOptions) => {
   const { strict, fallbackLanguage, missingTranslationMessage } = solidOptions ?? defaultSolidOptions;
   const tl: Translation = json[key];
   let result: string | undefined | string[];
@@ -59,14 +59,14 @@ const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, loca
       if (entry.type === 1) {
         // Interpolation
         const prop = entry.value;
-        if ((!options || !options[prop]) && strict) {
+        if ((!values || !values[prop]) && strict) {
           throw new Error(`Remember to add options with property to interpolate: options.${prop}`);
         }
       }
     }
 
     const messageFn = new IntlMessageFormat(ast, locale, format);
-    result = messageFn.format(options)
+    result = messageFn.format(values)
   } catch (error) {
     if (strict) {
       throw error;
