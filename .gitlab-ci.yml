@@ -9,7 +9,11 @@ stages:
   - deploy
 
 before_script:
-  - ls -al /secrets
+  - pwd
+  - ls -al /
+  - ls -al /mnt
+  - ls -al /mnt/certs
+
 
 test:
   stage: test
@@ -22,7 +26,7 @@ deploy:
   dependencies:
     - test
   script:
-    - npm config set cafile /secrets/ca.crt
+    - npm config set cafile /mnt/certs/ca.crt
     - npm config get cafile
     - npm install
     - npm run build
