@@ -1,6 +1,6 @@
 {
 	"version": "0.0.1",
-	"name": "@newex/vite-plugin-svelte-solidtranslation",
+	"name": "@opensource/solidtranslation",
 	"description": "Compile time translation library for Svelte",
 	"private": true,
 	"main": "dist/index.js",
