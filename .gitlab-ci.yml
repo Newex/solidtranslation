@@ -8,13 +8,6 @@ stages:
   - test
   - deploy
 
-before_script:
-  - pwd
-  - ls -al /
-  - ls -al /mnt
-  - ls -al /mnt/certs
-
-
 test:
   stage: test
   script:
@@ -26,7 +19,8 @@ deploy:
   dependencies:
     - test
   script:
-    - npm config set cafile /mnt/certs/ca.crt
+    # Note: that it seems only tls.crt and tls.key are available in build-image
+    - npm config set cafile /mnt/certs/tls.crt
     - npm config get cafile
     - npm install
     - npm run build
