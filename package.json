@@ -2,7 +2,6 @@
 	"version": "0.0.1",
 	"name": "@opensource/solidtranslation",
 	"description": "Compile time translation library for Svelte",
-	"private": true,
 	"main": "dist/index.js",
 	"scripts": {
 		"build": "tsc",
