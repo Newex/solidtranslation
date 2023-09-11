@@ -24,5 +24,6 @@ deploy:
    - echo CI_SERVER_HOST=${CI_SERVER_HOST}
    - npm install
    - npm run build
-   #  echo "@opensource:registry=${CI_API_V4_URL}" >> .npmrc
-   # - npm publish
+   - echo "@opensource:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" >> .npmrc
+   - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+   - npm publish
