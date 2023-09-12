@@ -82,3 +82,14 @@ it("should pluralize translation correctly", () => {
   // assert
   expect(text).toBe("Jeg har købt 2 bøger");
 })
+
+it("should use singular form in pluralization if set", () => {
+  // arrange
+  const t = translate(tl, "da");
+
+  // act
+  const text = t("books", { n: 1 });
+
+  // assert
+  expect(text).toBe("Jeg har købt 1 bog");
+})
