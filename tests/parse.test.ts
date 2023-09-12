@@ -127,3 +127,14 @@ it("should ensure the options given during the translation are preferred", () =>
   // assert
   expect(empty).toBe("");
 })
+
+it("should be able to pass null value into translation when not needed", () => {
+  // arrange
+  const t = translate(tl, "en");
+
+  // act
+  const text = t("ordinary", null);
+
+  // assert
+  expect(text).toBe("No need for values in this sentence.");
+})

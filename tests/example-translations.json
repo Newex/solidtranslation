@@ -11,5 +11,8 @@
   "books": {
     "en": "I bought {n, plural, one {# book} other {# books}}",
     "da": "Jeg har købt {n, plural, one {# bog} other {# bøger}}"
+  },
+  "ordinary": {
+    "en": "No need for values in this sentence."
   }
 }
