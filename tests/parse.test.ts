@@ -71,3 +71,14 @@ it("should return missing text if translation is an empty text", () => {
   // assert
   expect(empty).toBe("MISSING");
 })
+
+it("should pluralize translation correctly", () => {
+  // arrange
+  const t = translate(tl, "da");
+
+  // act
+  const text = t("books", { n: 2 });
+
+  // assert
+  expect(text).toBe("Jeg har købt 2 bøger");
+})
