@@ -45,6 +45,21 @@ const defaultSolidOptions: SolidTranslationOptions = {
   missingTranslationMessage: "-"
 }
 
+/**
+ * Options for translation
+ */
+export interface Options {
+  /**
+   * Formatting options
+   */
+  formatting?: Formats,
+
+  /**
+   * Overwrite global settings
+   */
+  settings?: SolidTranslationOptions
+}
+
 const translateJson = <T extends TranslationLookup> (options: SolidTranslationOptions, json: T, key: keyof T, locale: NestedKeyOf<T>, values?: TranslationValues, format?: Partial<Formats>) => {
   let { strict, fallbackLanguage, missingTranslationMessage } = options;
   const tl: Translation = json[key];
@@ -96,7 +111,7 @@ const translateJson = <T extends TranslationLookup> (options: SolidTranslationOp
 
 export const translate = <T extends TranslationLookup>(json: T, locale: NestedKeyOf<T>, options?: SolidTranslationOptions) => {
   const solidOptions = Object.assign({}, defaultSolidOptions, options);
-  return (key: keyof T, values?: TranslationValues, format?: Partial<Formats> | null, options?: SolidTranslationOptions) => {
-    return translateJson<T>(Object.assign({}, solidOptions, options), json, key, locale, values, format ?? {});
+  return (key: keyof T, values?: TranslationValues, options?: Options) => {
+    return translateJson<T>(Object.assign({}, solidOptions, options?.settings), json, key, locale, values, options?.formatting ?? {});
   }
 }

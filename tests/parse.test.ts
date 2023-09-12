@@ -110,7 +110,7 @@ it("should return empty string on erroneous translations if strict is set to fal
   expect(empty).toBe("");
 })
 
-it("should ensure the options given during the translation are prefered", () => {
+it("should ensure the options given during the translation are preferred", () => {
   // arrange
   const globalOptions: SolidTranslationOptions = {
     strict: true
@@ -118,7 +118,11 @@ it("should ensure the options given during the translation are prefered", () => 
   const t = translate(tl, "en", globalOptions);
 
   // act, turn off strict
-  const empty = t("greetings", { no: "name" }, null, { strict: false });
+  const empty = t("greetings", { no: "name" }, {
+    settings: {
+      strict: false
+    },
+  });
 
   // assert
   expect(empty).toBe("");
