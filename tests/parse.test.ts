@@ -33,7 +33,8 @@ it("should throw error when there is a mismatch between interpolated string and 
 it("should fallback to the specified language if no translation is found", () => {
   // arrange
   const options: SolidTranslationOptions = {
-    fallbackLanguage: "en"
+    fallbackLanguage: "en",
+    strict: false
   };
   const t = translate(tl, "de", options);
 
@@ -47,7 +48,8 @@ it("should fallback to the specified language if no translation is found", () =>
 it("should return missing translation text if missing translation", () => {
   // arrange
   const options: SolidTranslationOptions = {
-    missingTranslationMessage: "NOT TRANSLATED YET!"
+    missingTranslationMessage: "NOT TRANSLATED YET!",
+    strict: false
   };
   const t = translate(tl, "en", options);
 

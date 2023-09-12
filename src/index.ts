@@ -30,7 +30,10 @@ const defaultSolidOptions: SolidTranslationOptions = {
 }
 
 const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, values?: Options, format?: Partial<Formats>, solidOptions?: SolidTranslationOptions) => {
-  const { strict, fallbackLanguage, missingTranslationMessage } = solidOptions ?? defaultSolidOptions;
+  let { strict, fallbackLanguage, missingTranslationMessage } = solidOptions ?? defaultSolidOptions;
+  strict ??= defaultSolidOptions.strict;
+  fallbackLanguage ??= defaultSolidOptions.fallbackLanguage;
+  missingTranslationMessage ??= defaultSolidOptions.missingTranslationMessage;
   const tl: Translation = json[key];
   let result: string | undefined | string[];
   try {
