@@ -111,6 +111,13 @@ const translateJson = <T extends TranslationLookup> (options: SolidTranslationOp
 
 export const translate = <T extends TranslationLookup>(json: T, locale: NestedKeyOf<T>, options?: SolidTranslationOptions) => {
   const solidOptions = Object.assign({}, defaultSolidOptions, options);
+
+  /**
+   * Translate text to the selected language
+   * @param key The key to identify the text
+   * @param values (Optional) values to be provided to the translation message
+   * @param options (Optional) options to either set formatting or overwriting the global settings
+   */
   return (key: keyof T, values?: TranslationValues, options?: Options) => {
     return translateJson<T>(Object.assign({}, solidOptions, options?.settings), json, key, locale, values, options?.formatting ?? {});
   }
