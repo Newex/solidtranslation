@@ -42,11 +42,8 @@ const defaultSolidOptions: SolidTranslationOptions = {
   missingTranslationMessage: "-"
 }
 
-const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, values?: TranslationValues, format?: Partial<Formats>, solidOptions?: SolidTranslationOptions) => {
-  let { strict, fallbackLanguage, missingTranslationMessage } = solidOptions ?? defaultSolidOptions;
-  strict ??= defaultSolidOptions.strict;
-  fallbackLanguage ??= defaultSolidOptions.fallbackLanguage;
-  missingTranslationMessage ??= defaultSolidOptions.missingTranslationMessage;
+const translateJson = <T extends TranslationLookup> (options: SolidTranslationOptions, json: T, key: keyof T, locale: NestedKeyOf<T>, values?: TranslationValues, format?: Partial<Formats>) => {
+  let { strict, fallbackLanguage, missingTranslationMessage } = options;
   const tl: Translation = json[key];
   let result: string | undefined | string[];
   try {
@@ -95,9 +92,8 @@ const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, loca
 }
 
 export const translate = <T extends TranslationLookup>(json: T, locale: NestedKeyOf<T>, options?: SolidTranslationOptions) => {
-  const solidOptions = options;
+  const solidOptions = Object.assign({}, defaultSolidOptions, options);
   return (key: keyof T, values?: TranslationValues, format?: Partial<Formats> | null, options?: SolidTranslationOptions) => {
-    options ??= solidOptions;
-    return translateJson<T>(json, key, locale, values, format ?? { }, options);
+    return translateJson<T>(Object.assign({}, solidOptions, options), json, key, locale, values, format ?? {});
   }
 }
