@@ -117,6 +117,7 @@ export const translate = <T extends TranslationLookup>(json: T, locale: NestedKe
    * @param key The key to identify the text
    * @param values (Optional) values to be provided to the translation message
    * @param options (Optional) options to either set formatting or overwriting the global settings
+   * @throws Error if in strict mode and no translation has been found using the key or if there is an incorrect parameter for the translation values.
    */
   return (key: keyof T, values?: TranslationValues, options?: Options) => {
     return translateJson<T>(Object.assign({}, solidOptions, options?.settings), json, key, locale, values, options?.formatting ?? {});
