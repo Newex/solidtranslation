@@ -16,6 +16,9 @@ export type TranslationLookup = {
   [index: string]: Translation
 }
 
+/**
+ * Values to be provided for the translation
+ */
 export type TranslationValues = Record<string, PrimitiveType | FormatXMLElementFn<string>>;
 
 export interface SolidTranslationOptions {
