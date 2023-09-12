@@ -95,3 +95,17 @@ it("should use singular form in pluralization if set", () => {
   // assert
   expect(text).toBe("Jeg har købt 1 bog");
 })
+
+it("should return empty string on erroneous translations if strict is set to false", () => {
+  // arrange
+  const options: SolidTranslationOptions = {
+    strict: false
+  };
+  const t = translate(tl, "en", options);
+
+  // act --> should provide { name } to be correct
+  const empty = t("greetings", { no: "name" });
+
+  // assert
+  expect(empty).toBe("");
+})
