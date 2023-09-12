@@ -60,7 +60,7 @@ export interface Options {
   settings?: SolidTranslationOptions
 }
 
-const translateJson = <T extends TranslationLookup> (options: SolidTranslationOptions, json: T, key: keyof T, locale: NestedKeyOf<T>, values?: TranslationValues, format?: Partial<Formats>) => {
+const translateJson = <T extends TranslationLookup> (options: SolidTranslationOptions, json: T, key: keyof T, locale: NestedKeyOf<T>, values?: TranslationValues | null, format?: Partial<Formats>) => {
   let { strict, fallbackLanguage, missingTranslationMessage } = options;
   const tl: Translation = json[key];
   let result: string | undefined | string[];
@@ -97,7 +97,11 @@ const translateJson = <T extends TranslationLookup> (options: SolidTranslationOp
     }
 
     const messageFn = new IntlMessageFormat(ast, locale, format);
-    result = messageFn.format(values)
+    if (values !== null) {
+      result = messageFn.format(values)
+    } else {
+      result = icu;
+    }
   } catch (error) {
     if (strict) {
       throw error;
@@ -119,7 +123,7 @@ export const translate = <T extends TranslationLookup>(json: T, locale: NestedKe
    * @param options (Optional) options to either set formatting or overwriting the global settings
    * @throws Error if in strict mode and no translation has been found using the key or if there is an incorrect parameter for the translation values.
    */
-  return (key: keyof T, values?: TranslationValues, options?: Options) => {
+  return (key: keyof T, values?: TranslationValues | null, options?: Options) => {
     return translateJson<T>(Object.assign({}, solidOptions, options?.settings), json, key, locale, values, options?.formatting ?? {});
   }
 }
