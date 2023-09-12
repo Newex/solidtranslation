@@ -19,8 +19,21 @@ export type TranslationLookup = {
 export type Options = Record<string, PrimitiveType | FormatXMLElementFn<string>>;
 
 export interface SolidTranslationOptions {
+  /**
+   * If true then an item must have a translation. Furthermore a translation must have the correct input values (if any) when called.
+   */
   strict?: boolean,
+
+  /**
+   * The language to lookup for translations if the selected language does not contain a translation.
+   * Note: that the fallback language is only searched if strict is set to false.
+   */
   fallbackLanguage?: string,
+
+  /**
+   * The missing translation text.
+   * Note that the missing translation text is only returned if strict is set to false and the fallback language has not defined any translations.
+   */
   missingTranslationMessage?: string,
 }
 
