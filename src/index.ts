@@ -16,7 +16,7 @@ export type TranslationLookup = {
   [index: string]: Translation
 }
 
-export type Options = Record<string, PrimitiveType | FormatXMLElementFn<string>>;
+export type TranslationValues = Record<string, PrimitiveType | FormatXMLElementFn<string>>;
 
 export interface SolidTranslationOptions {
   /**
@@ -42,7 +42,7 @@ const defaultSolidOptions: SolidTranslationOptions = {
   missingTranslationMessage: "-"
 }
 
-const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, values?: Options, format?: Partial<Formats>, solidOptions?: SolidTranslationOptions) => {
+const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, locale: NestedKeyOf<T>, values?: TranslationValues, format?: Partial<Formats>, solidOptions?: SolidTranslationOptions) => {
   let { strict, fallbackLanguage, missingTranslationMessage } = solidOptions ?? defaultSolidOptions;
   strict ??= defaultSolidOptions.strict;
   fallbackLanguage ??= defaultSolidOptions.fallbackLanguage;
@@ -96,7 +96,8 @@ const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, loca
 
 export const translate = <T extends TranslationLookup>(json: T, locale: NestedKeyOf<T>, options?: SolidTranslationOptions) => {
   const solidOptions = options;
-  return (key: keyof T, options?: Options, format?: Partial<Formats>) => {
-    return translateJson<T>(json, key, locale, options, format, solidOptions);
+  return (key: keyof T, values?: TranslationValues, format?: Partial<Formats> | null, options?: SolidTranslationOptions) => {
+    options ??= solidOptions;
+    return translateJson<T>(json, key, locale, values, format ?? { }, options);
   }
 }
