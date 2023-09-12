@@ -27,7 +27,7 @@ it("should throw error when there is a mismatch between interpolated string and 
   const hello = () => t("greetings", values);
 
   // arrange
-  expect(hello).toThrowError(/^Remember to add options with property to interpolate: options\.name$/);
+  expect(hello).toThrowError(/^Remember to add options with property to interpolate: values\.name$/);
 })
 
 it("should fallback to the specified language if no translation is found", () => {

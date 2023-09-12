@@ -60,7 +60,7 @@ const translateJson = <T extends TranslationLookup> (json: T, key: keyof T, loca
         // Interpolation
         const prop = entry.value;
         if ((!values || !values[prop]) && strict) {
-          throw new Error(`Remember to add options with property to interpolate: options.${prop}`);
+          throw new Error(`Remember to add options with property to interpolate: values.${prop}`);
         }
       }
     }
