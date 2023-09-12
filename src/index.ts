@@ -82,7 +82,7 @@ const translateJson = <T extends TranslationLookup> (options: SolidTranslationOp
     const ast = parse(icu);
 
     for (let entry of ast) {
-      // 
+      // TODO: check all the other types for correctness
       if (entry.type === 0) {
         continue;
       }
