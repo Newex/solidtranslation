@@ -16,20 +16,6 @@ it("should properly translate when given locale, key and options", () => {
   expect(hello).toBe("Hello World!");
 })
 
-it("should throw error when there is a mismatch between interpolated string and options argument", () => {
-  // arrange
-  const t = translate(tl, "da");
-  const values = {
-    wrong: "No options property"
-  };
-
-  // act
-  const hello = () => t("greetings", values);
-
-  // arrange
-  expect(hello).toThrowError(/^Remember to add options with property to interpolate: values\.name$/);
-})
-
 it("should fallback to the specified language if no translation is found", () => {
   // arrange
   const options: SolidTranslationOptions = {

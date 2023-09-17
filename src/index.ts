@@ -1,4 +1,4 @@
-import { parse } from "@formatjs/icu-messageformat-parser";
+import { TYPE, parse } from "@formatjs/icu-messageformat-parser";
 import IntlMessageFormat, { FormatXMLElementFn, PrimitiveType, Formats } from "intl-messageformat";
 
 // Modified to not concatenate using period.
@@ -80,22 +80,6 @@ const translateJson = <T extends TranslationLookup> (options: SolidTranslationOp
     }
 
     const ast = parse(icu);
-
-    for (let entry of ast) {
-      // TODO: check all the other types for correctness
-      if (entry.type === 0) {
-        continue;
-      }
-
-      if (entry.type === 1) {
-        // Interpolation
-        const prop = entry.value;
-        if ((!values || !values[prop]) && strict) {
-          throw new Error(`Remember to add options with property to interpolate: values.${prop}`);
-        }
-      }
-    }
-
     const messageFn = new IntlMessageFormat(ast, locale, format);
     if (values !== null) {
       result = messageFn.format(values)
@@ -113,6 +97,13 @@ const translateJson = <T extends TranslationLookup> (options: SolidTranslationOp
   return result;
 }
 
+/**
+ * Construct a translator factory, that can translate in the given locale from the set of key-value translations.
+ * @param json json source containing the key-values for translation
+ * @param locale The language locale
+ * @param options The optional options
+ * @returns A translator function
+ */
 export const translate = <T extends TranslationLookup>(json: T, locale: NestedKeyOf<T>, options?: SolidTranslationOptions) => {
   const solidOptions = Object.assign({}, defaultSolidOptions, options);
 
