@@ -140,4 +140,4 @@ I have chosen this format because I think this aggregates data that are closely 
 
 Other formats that I've seen usually use the inverse where the outer properties are the `language-keys` and then they separate into `translation-keys`.
 
-The `solidtranslation` json format it is easier to see related translations.
+The `solidtranslation` json format it is easier to see related translations because they are grouped by `translation-key`.
