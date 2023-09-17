@@ -52,7 +52,7 @@ export interface Options {
   /**
    * Formatting options
    */
-  formatting?: Formats,
+  formatting?: Partial<Formats>,
 
   /**
    * Overwrite global settings
