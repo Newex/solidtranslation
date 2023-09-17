@@ -15,7 +15,7 @@ $ npm install -D @newex/solidtranslation
 # Show me
 Example given a json file containing the following translations:
 
-```json
+```json5
 // example.json
 {
   "greetings": {
@@ -127,7 +127,7 @@ Quick recap of ICU message format is:
 
 The json format that is used in `solidtranslation` is:
 
-```json
+```json5
 {
   "translation-key": {
     "language-key": "ICU message",
