@@ -1,5 +1,5 @@
 {
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"name": "@newex/solidtranslation",
 	"description": "Translation library wrapper that translate ICU messages using formatjs parser",
 	"main": "dist/index.js",
