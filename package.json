@@ -7,7 +7,7 @@
 	"private": false,
 	"readme": "README.md",
 	"repository": {
-		"url": "https://github.com/Newex/solidtranslation"
+		"url": "git+https://github.com/Newex/solidtranslation.git"
 	},
 	"license": "MIT",
 	"publishConfig": {
